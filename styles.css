@@ -1,0 +1,25 @@
+:root { --max: 980px; }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', PingFangTC, 'Noto Sans TC', Arial, sans-serif; margin: 0; background:#f5f7fb; color:#111; }
+header { background:#fff; border-bottom:1px solid #e7e9ee; position:sticky; top:0; z-index:10; }
+header, main, footer { max-width: var(--max); margin: 0 auto; padding: 12px; }
+h1 { margin: 8px 0; font-size: 20px; }
+h2 { margin: 8px 0 12px; font-size: 18px; }
+.actions { display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 12px; }
+button { padding:10px 12px; border-radius:10px; border:1px solid #d0d7e2; background:#fff; cursor:pointer; }
+button:hover { background:#f0f3f9; }
+.card { background:#fff; border:1px solid #e2e6ef; border-radius:14px; padding:14px; margin:12px 0; }
+.hint { color:#666; font-size: 13px; }
+textarea, input, select { width:100%; padding:10px; border-radius:8px; border:1px solid #d0d7e2; background:#fff; }
+.grid { display:grid; grid-template-columns: repeat(5, 1fr); gap:10px; margin-top:8px; }
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr);} }
+table { width:100%; border-collapse: collapse; }
+th, td { border-bottom:1px solid #eef1f7; padding:10px 6px; text-align:left; }
+.num { text-align:right; }
+.summary { display:flex; flex-wrap:wrap; gap:12px; }
+.kpi { flex:1 1 180px; background:#fafbff; border:1px solid #e8ecf7; border-radius:12px; padding:12px; }
+.kpi h3 { margin:0 0 6px; font-size:14px; color:#445; }
+.kpi .val { font-size:20px; font-weight:700; }
+footer { color:#666; font-size:12px; text-align:center; }
+.badge { font-size:12px; padding:2px 8px; border-radius:999px; border:1px solid #e0e7f3; background:#f6f9ff; }
+code { background:#f0f3f9; padding:2px 6px; border-radius:6px; }

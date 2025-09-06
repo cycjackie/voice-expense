@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <title>語音記帳 · PWA</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>語音記帳</h1>
+    <div class="actions">
+      <button id="btnSpeak">🎤 語音輸入</button>
+      <button id="btnAdd">＋ 新增</button>
+      <button id="btnExport">⬇️ 匯出CSV</button>
+      <button id="btnShare">📤 分享彙總</button>
+      <input type="file" id="fileImport" accept=".csv" style="display:none">
+      <button id="btnImport">⬆️ 匯入CSV</button>
+      <button id="btnClear">🗑 清空(可撤銷)</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>快速輸入</h2>
+      <p class="hint">
+        範例：<code>9月1日 午餐 45 餐飲 變動</code>、<code>收入 1,000 工資</code>
+      </p>
+      <textarea id="voiceText" rows="3" placeholder="例如：今天 午餐 45 餐飲 變動"></textarea>
+      <div class="grid">
+        <label>日期<input id="date" type="date"></label>
+        <label>金額<input id="amount" type="number" step="0.01" inputmode="decimal"></label>
+        <label>描述<input id="desc" type="text"></label>
+        <label>分類<input id="cat" type="text"></label>
+        <label>費用屬性
+          <select id="attr">
+            <option value="variable">變動支出</option>
+            <option value="fixed">固定支出</option>
+            <option value="income">收入</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>月度儀表板</h2>
+      <div id="summary" class="summary"></div>
+    </section>
+
+    <section class="card">
+      <h2>明細</h2>
+      <table id="table">
+        <thead>
+          <tr>
+            <th>日期</th>
+            <th>描述</th>
+            <th>分類</th>
+            <th>收入</th>
+            <th>變動支出</th>
+            <th>固定支出</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <small>離線可用 · 可加到主畫面 · 資料儲存於本機</small>
+  </footer>
+
+  <template id="rowTpl">
+    <tr>
+      <td data-k="date"></td>
+      <td data-k="desc"></td>
+      <td data-k="cat"></td>
+      <td data-k="income" class="num"></td>
+      <td data-k="var" class="num"></td>
+      <td data-k="fix" class="num"></td>
+      <td>
+        <button class="edit">編輯</button>
+        <button class="del">刪除</button>
+      </td>
+    </tr>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>

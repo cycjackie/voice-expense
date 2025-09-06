@@ -138,25 +138,29 @@
 
   // 語音
   function speechCapture(){
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if(!SR){
-      alert('此瀏覽器不支援語音辨識');
-      return;
-    }
-    const r = new SR();
-    r.lang = 'zh-HK, zh-TW, zh-CN, en-US';
-    r.onresult = (ev)=>{
-      let t = '';
-      for(let i=ev.resultIndex;i<ev.results.length;i++){
-        t += ev.results[i][0].transcript;
-      }
-      els.voiceText.value = t;
-    };
-    r.onend = ()=> {
-      if(els.voiceText.value.trim()) parseToFields(els.voiceText.value.trim());
-    };
-    r.start();
-  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ alert('此瀏覽器不支援語音辨識，請用鍵盤麥克風（粵語鍵盤）。'); return; }
+
+  const r = new SR();
+  r.lang = 'yue-Hant-HK';          // 粵語（香港）
+  r.continuous = false;
+  r.interimResults = false;
+  r.maxAlternatives = 1;
+
+  let finalText = '';
+  r.onresult = (ev) => {
+    const res = ev.results[0][0];
+    finalText = (res && res.transcript ? res.transcript : '').trim();
+    if (finalText) document.querySelector('#voiceText').value = finalText;
+  };
+  r.onspeechend = () => { try { r.stop(); } catch(_){} };
+  r.onend = () => {
+    if(finalText){ parseToFields(finalText); addFromFields(); }
+    else{ alert('未聽到有效內容，請再試一次。'); }
+  };
+  r.onerror = (e) => alert('語音辨識失敗：' + (e.error || 'unknown'));
+  r.start();
+}
 
   // 簡單解析文字 → 填入欄位
   function parseToFields(text){
